@@ -1,0 +1,27 @@
+.NavBar {
+    display: flex;
+    gap: 10vw;
+}
+
+.NavBar_item {
+    list-style-type: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    transition: all 500ms ease;
+}
+
+.NavBar_item:hover {
+    background-color: #1890ff;
+    height: 100%;
+}
+
+.NavBar_item:active {
+    background-color: #001529;
+    height: 100%;
+}
+
+.NavBar_item_link {
+    color: hsla(0,0%,100%,.65);
+}
