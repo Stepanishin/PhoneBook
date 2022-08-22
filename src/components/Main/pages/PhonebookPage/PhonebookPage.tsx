@@ -1,34 +1,39 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../../../hooks/redux';
-import { useLazyAddNewContactQuery, useLazyDeleteContactQuery, useLazyGetContactsQuery } from '../../../../store/reducers/fetchApi';
+import { useAddNewContactMutation,useDeleteContactsMutation, useLazyFetchAllContactsQuery, useUpdateContactMutation } from '../../../../store/reducers/fetchApi';
 import { IContact } from '../../../../types/IContact';
 import AddNewContactBtn from '../../../UI/AddNewContactBtn/AddNewContactBtn';
+import UpdateContactBtn from '../../../UI/UpdateContactBtn/UpdateContactBtn';
 import styles from './PhonebookPage.module.css'
+import DeleteContactBtn from '../../../UI/DeleteContactBtn/DeleteContactBtn';
+import SearchInput from '../../../UI/SearchInput/SearchInput';
 
 
 
 const PhonebookPage:FC = () => {
 
     const {isUser} = useAppSelector(state => state.userLoginSlice)
-    const [fetchContacts, { data }] = useLazyGetContactsQuery()
-    const [deleteContact, { data: deletedContact }] = useLazyDeleteContactQuery()
-    const [fetchRepos] = useLazyAddNewContactQuery()
-
-    const [newContact, setNewContact] = useState<IContact>({
-        name: '',
-        phone: '',
-    })
+    const [fetchGetContacts, { data }] = useLazyFetchAllContactsQuery()
+    const [fetchDeleteContact, { data: deletedContact }] = useDeleteContactsMutation()
+    const [fetchAddNewContact,{ data: addedNewContact }] = useAddNewContactMutation()
+    const [fetchUpdateContact,{ data: updatedContact }] = useUpdateContactMutation()
 
     useEffect(() => {
-        fetchContacts('')
-    }, [data, deletedContact])
+        fetchGetContacts('')
+    }, [data, deletedContact,addedNewContact,updatedContact])
 
-    
 
-    const deleteContacts = (e:React.MouseEvent<HTMLButtonElement>) => {
-        const id = (e.target as HTMLInputElement).id
-        deleteContact(id)
+    const deleteContact = (id:number) => {
+        fetchDeleteContact(id.toString())
+    }
+
+    const addNewContact = (newContact: IContact) => {
+        fetchAddNewContact(newContact)
+    }
+
+    const updateContact = (contact: IContact) => {
+        fetchUpdateContact(contact)
     }
 
     return (
@@ -39,28 +44,27 @@ const PhonebookPage:FC = () => {
                 <div className={styles.PhonebookPage_container}>
                     <div className={styles.PhonebookPage_contacts_container}>
                         <h1 className={styles.PhonebookPage_contacts_title}>Contacts</h1>
-                        {/* <button href="#close" onClick={addNewContact} className={styles.PhonebookPage_contacts_addNewContactBtn}>Add new contact</button> */}
-                        <AddNewContactBtn />
+                        <AddNewContactBtn addNewContact={addNewContact} />
                     </div>
                     <div className={styles.PhonebookPage_title_container}>
-                        <div style={{width: '400px'}}>Name</div>
-                        <div style={{width: '400px'}}>Phone</div>
+                        <div className={styles.container}><h2>Name</h2></div>
+                        <div><h2>Phone</h2></div>
                     </div>
                     <div className={styles.PhonebookPage_title_container}>
-                        <div style={{width: '400px'}}>SearchName</div>
-                        <div style={{width: '400px'}}>SearchPhone</div>
-                    </div>
+                        <SearchInput fetchGetContacts={fetchGetContacts} />
+                        <div>SearchPhone</div>
+                    </div> 
                     <div className={styles.PhonebookPage_list_container}>
                         <ul className={styles.PhonebookPage_list}>
                             {
                                 data?.map((contact) => {
                                     return (
-                                        <li className={styles.PhonebookPage_list_values} >
-                                            <div style={{width: '400px'}}>{contact.name}</div>
-                                            <div style={{width: '400px'}}>{contact.phone}</div>
-                                            <div>
-                                                <button>Edit</button>
-                                                <button id={contact.id} onClick={deleteContacts} >Delete</button>
+                                        <li className={styles.PhonebookPage_list_values} key={contact.id} >
+                                            <div className={styles.container}>{contact.name}</div>
+                                            <div>{contact.phone}</div>
+                                            <div className={styles.PhonebookPage_list_btns_wrap} >
+                                                <UpdateContactBtn updateContact={updateContact} contact={contact} />
+                                                <DeleteContactBtn deleteContact={deleteContact}  id={contact.id} />
                                             </div>
                                         </li>
                                     )
@@ -70,7 +74,7 @@ const PhonebookPage:FC = () => {
                     </div>
                 </div>
                 :
-                <></>
+                <Navigate to="/" replace />                
             }
         </div>
     );

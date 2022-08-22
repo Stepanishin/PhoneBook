@@ -5,4 +5,25 @@
     display: flex;
     justify-content: center;
     flex: 0 0 auto;
+    align-items: center;
 }
+
+.footer a {
+    transition: all 500ms ease;
+    display: flex;
+    color: hsla(0,0%,100%,.65);
+    height: 100%;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 15px;
+}
+
+.footer a:hover {
+    background-color: #1890ff;
+
+} 
+
+.footer a:active {
+    background-color: #001529;
+} 

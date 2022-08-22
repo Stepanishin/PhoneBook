@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { useGetUsersQuery } from '../../../store/reducers/fetchApi';
+import { useFetchAllUsersQuery } from '../../../store/reducers/fetchApi';
 import { userLoginSlice } from '../../../store/reducers/getUserLogin';
 import { IUser } from '../../../types/IUser';
 import styles from './AuthForm.module.css'
@@ -12,7 +12,7 @@ const AuthForm:FC = () => {
 
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
-    const { data } = useGetUsersQuery('')
+    const { data } = useFetchAllUsersQuery('')
 
 
     const {isUser} = useAppSelector(state => state.userLoginSlice)
@@ -29,7 +29,11 @@ const AuthForm:FC = () => {
         if (user?.length != 0) {
             dispatch(userAccess())
         } else {
-            alert('huy')
+            const modalWindow = document.querySelector(`.${styles.form}`)
+            modalWindow?.classList.add(`${styles.invalid_value}`)
+            setTimeout(function(){
+                modalWindow?.classList.remove(`${styles.invalid_value}`)
+            }, 1000)
         }
     }
     

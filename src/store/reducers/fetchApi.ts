@@ -1,115 +1,47 @@
-import {createApi, fakeBaseQuery} from '@reduxjs/toolkit/query/react'
+import {createApi, fakeBaseQuery, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import { IContact } from '../../types/IContact'
 import { IUser } from '../../types/IUser'
 
 export const fetchApi = createApi({
     reducerPath: 'fetchApi',
-    baseQuery: fakeBaseQuery(),
+    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3001'}),
     refetchOnFocus: true,
     endpoints: (builder) => ({
-      getUsers: builder.query({
-        async queryFn() {
-        let result:Array<IUser> | undefined
-          try {
-            const options = {
-                headers: {
-                    'Content-type': 'application/json',
-                    }
-            }
-            
-            await fetch('http://localhost:3001/users/', options)
-            .then((response) => {
-                const result = response.json();
-                return result
-            })
-            .then((data) => {
-                result = data
-            })
-            
-          } catch {
-            console.log("No data available");
-          }
-          return {data: result}
-        }
+      fetchAllUsers: builder.query <Array<IUser>, string>({
+        query: () => ({
+            url: '/users',
+        })
       }),
-      getContacts: builder.query({
-        async queryFn() {
-        let result:Array<IContact> | undefined
-          try {
-            const options = {
-                headers: {
-                    'Content-type': 'application/json',
-                    }
-            }
-            
-            await fetch('http://localhost:3001/contacts/', options)
-            .then((response) => {
-                const result = response.json();
-                return result
-            })
-            .then((data) => {
-                result = data
-            })
-            
-          } catch {
-            console.log("No data available");
-          }
-          return {data: result}
-        }
+      fetchAllContacts: builder.query<Array<IContact>, string>({
+        query: (search) => ({
+            url: `/contacts?_sort=name + ${search}`,
+        })
       }),
-      addNewContact: builder.query({
-        async queryFn(newContact:IContact) {
-        let result:Array<IContact> | undefined
-          try {
-            const options = {
-              method: 'POST',
-              body: JSON.stringify(newContact),
-              headers: {
-                  'Content-type': 'application/json;charset=utf-8'
-              }
-            }  
-            
-            await fetch('http://localhost:3001/contacts/', options)
-            .then((response) => {
-                const result = response.json();
-                return result
-            })
-            .then((data) => {
-                result = data
-            })
-            
-          } catch {
-            console.log("No data available");
-          }
-          return {data: result}
-        }
+      addNewContact: builder.mutation<IContact, IContact>({
+        query: (newContact:IContact) => ({
+            url: '/contacts/',
+            method: 'POST',
+            body: newContact
+        })
       }),
-      deleteContact: builder.query({
-        async queryFn(id) {
-        let result:Array<IContact> | undefined
-          try {
-            const options = {
-              method: 'DELETE',
-              headers: {
-                  'Content-type': 'application/json;charset=utf-8',
-              }
-            }  
-            await fetch(`http://localhost:3001/contacts/${id}`, options)
-            .then((response) => {
-                const result = response.json();
-                return result
-            })
-            .then((data) => {
-                result = data
-            })
-            
-          } catch {
-            console.log("No data available");
-          }
-          return {data: result}
-        }
+      updateContact: builder.mutation<IContact, IContact>({
+        query: (newContact:IContact) => ({
+            url: `/contacts/${newContact.id}`,
+            method: 'PUT',
+            body: newContact
+        })
+      }),
+      deleteContacts: builder.mutation<IContact, string>({
+        query: (id) => ({
+            url: `/contacts/${id}`,
+            method: 'DELETE',
+        })
       }),
     })
   })
 
-  export const { useGetUsersQuery, useLazyAddNewContactQuery, useLazyGetContactsQuery, useLazyDeleteContactQuery } = fetchApi
+  export const {  useFetchAllUsersQuery, 
+                  useAddNewContactMutation, 
+                  useDeleteContactsMutation, 
+                  useLazyFetchAllContactsQuery, 
+                  useUpdateContactMutation } = fetchApi
