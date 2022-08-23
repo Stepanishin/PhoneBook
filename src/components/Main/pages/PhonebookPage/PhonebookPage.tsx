@@ -9,17 +9,13 @@ import styles from './PhonebookPage.module.css'
 import DeleteContactBtn from '../../../UI/DeleteContactBtn/DeleteContactBtn';
 import SearchInput from '../../../UI/SearchInput/SearchInput';
 
-
-
 const PhonebookPage:FC = () => {
 
     const {isUser} = useAppSelector(state => state.userLoginSlice)
     const [fetchGetContacts, { data }] = useLazyFetchAllContactsQuery()
     const [fetchDeleteContact, { data: deletedContact }] = useDeleteContactsMutation()
     const [fetchAddNewContact,{ data: addedNewContact }] = useAddNewContactMutation()
-    const [fetchUpdateContact,{ data: updatedContact }] = useUpdateContactMutation()
-    
-    
+    const [fetchUpdateContact,{ data: updatedContact }] = useUpdateContactMutation()  
 
     useEffect(() => {
         fetchGetContacts('')
@@ -55,7 +51,7 @@ const PhonebookPage:FC = () => {
                         <div className={styles.container}><h2>Name</h2></div>
                         <div><h2>Phone</h2></div>
                     </div>
-                    <div className={styles.PhonebookPage_title_container}>
+                    <div className={styles.PhonebookPage_search_container}>
                         <SearchInput searchValue={'name'} searchContact={searchContact} />
                         <SearchInput searchValue={'phone'} searchContact={searchContact} />
                     </div> 

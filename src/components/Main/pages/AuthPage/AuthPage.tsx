@@ -4,8 +4,6 @@ import AuthForm from '../../../UI/AuthForm/AuthForm';
 import LogoutContainer from '../../../UI/LogoutContainer/LogoutContainer';
 import styles from './AuthPage.module.css'
 
-
-
 const AuthPage = () => {
 
     const {isUser} = useAppSelector(state => state.userLoginSlice)

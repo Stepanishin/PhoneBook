@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDebounce } from '../../../hooks/debounce';
-import { useAppDispatch } from '../../../hooks/redux';
-import { IContact } from '../../../types/IContact';
 import styles from './SearchInput.module.css'
 
 interface ISearchInputProps {

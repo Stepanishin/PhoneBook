@@ -1,41 +1,39 @@
-/* свойства модального окна по умолчанию */
 .modal {
     color: black;
-    position: fixed; /* фиксированное положение */
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0,0,0,0.5); /* цвет фона */
+    background: rgba(0,0,0,0.5);
     z-index: 1050;
-    opacity: 0; /* по умолчанию модальное окно прозрачно */
+    opacity: 0; 
     -webkit-transition: opacity 200ms ease-in; 
     -moz-transition: opacity 200ms ease-in;
-    transition: opacity 200ms ease-in; /* анимация перехода */
-    pointer-events: none; /* элемент невидим для событий мыши */
+    transition: opacity 200ms ease-in;
+    pointer-events: none;
     margin: 0;
     padding: 0;
 }
-/* при отображении модального окно */
+
 .modal:target {
-    opacity: 1; /* делаем окно видимым */
-	pointer-events: auto; /* элемент видим для событий мыши */
-    overflow-y: auto; /* добавляем прокрутку по y, когда элемент не помещается на страницу */
+    opacity: 1; 
+	pointer-events: auto; 
+    overflow-y: auto; 
 }
-/* ширина модального окна и его отступы от экрана */
+
 .modal_dialog {
     position: relative;
     width: auto;
-    /* margin: 10px; */
     margin: 115px 10px;
 }
 @media (min-width: 576px) {
   .modal_dialog {
       max-width: 500px;
-      margin: 115px auto; /* для отображения модального окна по центру */
+      margin: 115px auto; 
   }
 }
-/* свойства для блока, содержащего контент модального окна */ 
+
 .modal_content {
     position: relative;
     display: -webkit-box;
@@ -136,4 +134,12 @@
     background-color:#3f93ff;
     border:none;
     color:white;
+}
+
+@media screen and (max-width: 550px) {
+    .addNewContactBtn {
+        margin-top: 5px;
+        font-size:14px;
+        text-align: center;
+    }
 }

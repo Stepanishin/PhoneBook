@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { useFetchAllUsersQuery } from '../../../store/reducers/fetchApi';
 import { userLoginSlice } from '../../../store/reducers/getUserLogin';

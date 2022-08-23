@@ -1,8 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../hooks/redux';
-import { IContact } from '../../../types/IContact';
+import React, { FC } from 'react';
 import styles from './DeleteContactBtn.module.css'
-import editBtn from './img/edit_btn.svg'
 import delete_btn from './img/delete_btn.svg'
 
 interface IDeleteContactBtnProps {

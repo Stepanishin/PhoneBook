@@ -6,8 +6,6 @@ import styles from './Header.module.css'
 
 const Header:FC = () => {
 
-    
-
     return (
         <header className={styles.header}>
             <NavBar />

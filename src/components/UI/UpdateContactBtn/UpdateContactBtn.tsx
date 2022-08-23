@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../hooks/redux';
 import { IContact } from '../../../types/IContact';
 import styles from './UpdateContactBtn.module.css'
 import editBtn from './img/edit_btn.svg'
