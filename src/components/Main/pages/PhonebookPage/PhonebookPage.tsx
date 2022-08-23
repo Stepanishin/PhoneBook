@@ -18,11 +18,16 @@ const PhonebookPage:FC = () => {
     const [fetchDeleteContact, { data: deletedContact }] = useDeleteContactsMutation()
     const [fetchAddNewContact,{ data: addedNewContact }] = useAddNewContactMutation()
     const [fetchUpdateContact,{ data: updatedContact }] = useUpdateContactMutation()
+    
+    
 
     useEffect(() => {
         fetchGetContacts('')
-    }, [data, deletedContact,addedNewContact,updatedContact])
+    }, [deletedContact,addedNewContact,updatedContact])
 
+    const searchContact = (searchValue:string) => {
+        fetchGetContacts(searchValue)
+    }
 
     const deleteContact = (id:number) => {
         fetchDeleteContact(id.toString())
@@ -51,12 +56,16 @@ const PhonebookPage:FC = () => {
                         <div><h2>Phone</h2></div>
                     </div>
                     <div className={styles.PhonebookPage_title_container}>
-                        <SearchInput fetchGetContacts={fetchGetContacts} />
-                        <div>SearchPhone</div>
+                        <SearchInput searchValue={'name'} searchContact={searchContact} />
+                        <SearchInput searchValue={'phone'} searchContact={searchContact} />
                     </div> 
                     <div className={styles.PhonebookPage_list_container}>
                         <ul className={styles.PhonebookPage_list}>
                             {
+                                data?.length === 0
+                                ?
+                                <p style={{display:'flex', justifyContent:'center', marginTop: '100px'}} >Nothing was found</p>
+                                :
                                 data?.map((contact) => {
                                     return (
                                         <li className={styles.PhonebookPage_list_values} key={contact.id} >

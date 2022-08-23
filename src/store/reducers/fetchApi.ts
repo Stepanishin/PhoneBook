@@ -1,4 +1,4 @@
-import {createApi, fakeBaseQuery, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import { IContact } from '../../types/IContact'
 import { IUser } from '../../types/IUser'
 
@@ -14,7 +14,7 @@ export const fetchApi = createApi({
       }),
       fetchAllContacts: builder.query<Array<IContact>, string>({
         query: (search) => ({
-            url: `/contacts?_sort=name + ${search}`,
+            url: `/contacts?_sort=name&${search}`,
         })
       }),
       addNewContact: builder.mutation<IContact, IContact>({
@@ -44,4 +44,5 @@ export const fetchApi = createApi({
                   useAddNewContactMutation, 
                   useDeleteContactsMutation, 
                   useLazyFetchAllContactsQuery, 
-                  useUpdateContactMutation } = fetchApi
+                  useUpdateContactMutation,
+               } = fetchApi

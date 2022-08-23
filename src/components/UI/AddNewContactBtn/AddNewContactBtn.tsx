@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { IContact } from '../../../types/IContact';
 import styles from './AddNewContactBtn.module.css'
 
